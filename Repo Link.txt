@@ -1,0 +1,1 @@
+https://github.com/ibmdb/db2drivers/blob/main/clidriver/ntx64_odbc_cli.zip
