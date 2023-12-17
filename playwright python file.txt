@@ -1,0 +1,170 @@
+########################################################################################################################################
+~~~~~TestCase
+
+def test_example2(page: Page) -> None:
+    login_page = LoginPage(page)
+    home_page = HomePage(page)
+    base_page = BasePage(page)
+
+    login_page.navigation("https://www.saucedemo.com/v1/")
+    login_page.do_login("standard_user", "secret_sauce")
+    home_page.perform_home_action()
+    base_page.show_all_real_time_data_dict()
+    base_page.abc()
+	
+########################################################################################################################################
+~~~~~LoginPage
+
+    def set_data(self):
+        abc = "12345678/9"
+        xyz = "masdksakd"
+        jhk = "sadsadsa5465dasd"
+		
+        self.fetch_real_time_data_list(abc, xyz, jhk)
+        self.fetch_real_time_data_dict(voucher='dict1234')
+		
+########################################################################################################################################
+~~~~~HomePage
+
+    def perform_home_action(self):
+        # List
+        element = self.use_specific_real_time_data(0)
+        print("Value: ", element)
+
+        # Dict
+        specific_data = self.use_specific_real_time_data_dict('voucher')
+        print(f"Specific Real-time data: {specific_data}")
+
+########################################################################################################################################
+
+class BasePage:
+    real_time_data_list = []
+    real_time_data_dict = {}
+
+    def __init__(self, page):
+        self.page = page
+        self.element_clicked = False
+
+    def navigation(self, url, time=0):
+        self.page.goto(url)
+        self.page.wait_for_timeout(time)
+
+    def click_element(self, element):
+        self.page.wait_for_selector(element)
+        self.page.click(element)
+
+    def type_on_element(self, element, text):
+        self.page.wait_for_selector(element)
+        self.page.click(element)
+        self.page.fill(element, text)
+
+
+    def fetch_real_time_data(self, *value):
+        try:
+            self.real_time_data_list.extend(value)
+        except Exception as e:
+            print(f"Error fetching real-time data: {e}")
+
+    def use_specific_real_time_data1(self, index):
+        if 0 <= index < len(self.real_time_data_list):
+            print(f"Specific Real-time data at index {index}: {self.real_time_data_list[index]}")
+        else:
+            print(f"Invalid index. Real-time data list size: {len(self.real_time_data_list)}")
+
+    def use_specific_real_time_data(self, index):
+        if 0 <= index < len(self.real_time_data_list):
+            return self.real_time_data_list[index]
+        else:
+            print(f"Invalid index. Real-time data list size: {len(self.real_time_data_list)}")
+            return None
+
+    @classmethod
+    def show_all_real_time_data(cls):
+        print("All Real-time data:")
+        for data in cls.real_time_data_list:
+            print(data)
+#######################################################################################################################
+
+    def fetch_real_time_data_dict(self, **values):
+        try:
+            self.real_time_data_dict.update(values)
+        except Exception as e:
+            print(f"Error fetching real-time data: {e}")
+
+    def use_specific_real_time_data_dict(self, key):
+        if key in self.real_time_data_dict:
+            return self.real_time_data_dict[key]
+        else:
+            print(f"Key {key} not found in Real-time data dictionary")
+            return None
+
+    @classmethod
+    def show_all_real_time_data_dict(cls):
+        print("All Real-time data:")
+        for key, value in cls.real_time_data_dict.items():
+            print(f"{key}: {value}")
+#######################################################################################################################
+
+    def click_element1(self, element):
+        try:
+            self.page.wait_for_selector(element)
+            self.page.click(element)
+        except Exception as e:
+            print(f"Error clicking element {element}: {e}")
+
+    def type_on_element2(self, element, text):
+        try:
+            self.page.wait_for_selector(element)
+            self.page.click(element)
+            self.page.fill(element, text)
+        except Exception as e:
+            print(f"Error typing on element {element}: {e}")
+
+    def type_on_element3(self, element, text):
+        try:
+            if not self.element_clicked:
+                self.page.wait_for_selector(element)
+                self.page.click(element)
+                self.element_clicked = True
+
+            self.page.fill(element, text)
+        except Exception as e:
+            print(f"Error typing on element {element}: {e}")
+
+    # ... (other methods with error handling)
+
+
+    def abc(self):
+        print("\n")
+        keys = self.real_time_data_dict.keys()
+        print(keys)
+
+        values = self.real_time_data_dict.values()
+        print(values)
+
+        items = self.real_time_data_dict.items()
+        print(items)
+
+
+    # def get_text_element(self, element):
+    #     self.page.wait_for_selector(element)
+    #     return self.page.text_content(element)
+    #
+    # def get_atribute_element(self, element, attribute):
+    #     self.page.wait_for_selector(element)
+    #     return self.page.get_attribute(element, attribute, strict=False)
+    #
+    # def type_text_element(self, element, value):
+    #     self.page.wait_for_selector(element)
+    #     self.page.type(element, value)
+
+    # def generateScreenShoot(self, element, attribute):
+    #     pathEvidence = f"evidences/images/{self.get_atribute_element(element, attribute)}.png"
+    #     self.page.locator(element).screenshot(path=pathEvidence)
+
+    # def closeAll(self):
+    #     self.browser.close()
+    #     self.context.close()
+    #     self.page.close()
+	
+#######################################################################################################################
